@@ -1,6 +1,5 @@
-package tests
+package test_utils
 
-/*
 import (
 	"crypto/tls"
 	"encoding/pem"
@@ -40,4 +39,4 @@ func FetchCACerts(host string, port string) ([]byte, error) {
 	}
 
 	return pemData, nil
-}*/
+}

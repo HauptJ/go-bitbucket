@@ -3,12 +3,12 @@ package bitbucket
 import (
 	"testing"
 
-	"github.com/ktrysmt/go-bitbucket/tests"
+	"github.com/ktrysmt/go-bitbucket/test_utils"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestAppendCaCerts_util_test(t *testing.T) {
-	caCerts, err := tests.FetchCACerts("bitbucket.org", "443")
+	caCerts, err := test_utils.FetchCACerts("bitbucket.org", "443")
 	if err != nil {
 		t.Fatalf("Error fetching CA certs using `FetchCACerts`: %v", err)
 	}

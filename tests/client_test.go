@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/ktrysmt/go-bitbucket"
+	"github.com/ktrysmt/go-bitbucket/test_utils"
 )
 
 const (
@@ -38,7 +39,7 @@ func TestClientNewBasicAuth(t *testing.T) {
 
 func TestClientNewBasicAuthWithCaCert(t *testing.T) {
 
-	caCerts, err := FetchCACerts(EXPECTED_BASE_URL_HOST, EXPECTED_BASE_URL_PORT)
+	caCerts, err := test_utils.FetchCACerts(EXPECTED_BASE_URL_HOST, EXPECTED_BASE_URL_PORT)
 	if err != nil {
 		t.Fatal("Error returned from `FetchCACerts` got: ", err)
 	}
@@ -75,7 +76,7 @@ func TestClientNewBasicAuthBaseUrlStr(t *testing.T) {
 
 func TestClientNewBasicAuthBaseUrlStrCaCert(t *testing.T) {
 
-	caCerts, err := FetchCACerts(EXPECTED_BASE_URL_HOST, EXPECTED_BASE_URL_PORT)
+	caCerts, err := test_utils.FetchCACerts(EXPECTED_BASE_URL_HOST, EXPECTED_BASE_URL_PORT)
 	if err != nil {
 		t.Fatal("Error returned from `FetchCACerts` got: ", err)
 	}
@@ -112,7 +113,7 @@ func TestClientWithBearerToken(t *testing.T) {
 
 func TestClientWithBearerTokenWithCaCert(t *testing.T) {
 
-	caCerts, err := FetchCACerts(EXPECTED_BASE_URL_HOST, EXPECTED_BASE_URL_PORT)
+	caCerts, err := test_utils.FetchCACerts(EXPECTED_BASE_URL_HOST, EXPECTED_BASE_URL_PORT)
 	if err != nil {
 		t.Fatal("Error returned from `FetchCACerts` got: ", err)
 	}
@@ -130,7 +131,7 @@ func TestClientWithBearerTokenWithCaCert(t *testing.T) {
 
 func TestClientWithBearerTokenWithBaseUrlStrCaCert(t *testing.T) {
 
-	caCerts, err := FetchCACerts(EXPECTED_BASE_URL_HOST, EXPECTED_BASE_URL_PORT)
+	caCerts, err := test_utils.FetchCACerts(EXPECTED_BASE_URL_HOST, EXPECTED_BASE_URL_PORT)
 	if err != nil {
 		t.Fatal("Error returned from `FetchCACerts` got: ", err)
 	}

@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/ktrysmt/go-bitbucket"
+	"github.com/ktrysmt/go-bitbucket/test_utils"
 )
 
 var (
@@ -140,7 +141,7 @@ func SetupBearerTokenWithBaseUrlStrCaCert(t *testing.T, baseUrlStr string, caCer
 		if parsedPort == "" {
 			parsedPort = "443"
 		}
-		extractedCaCerts, err := FetchCACerts(parsedUrl.Hostname(), parsedPort)
+		extractedCaCerts, err := test_utils.FetchCACerts(parsedUrl.Hostname(), parsedPort)
 		if err != nil {
 			t.Fatal(err)
 			return nil, err

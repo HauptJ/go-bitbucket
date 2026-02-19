@@ -4,10 +4,11 @@ go 1.24.0
 
 // You can uncomment this for local testing and development.
 // Ref: https://thewebivore.com/using-replace-in-go-mod-to-point-to-your-local-module/
-//replace (
-//	github.com/ktrysmt/go-bitbucket => ./
-//	github.com/ktrysmt/go-bitbucket/tests => ./tests
-//)
+replace (
+	github.com/ktrysmt/go-bitbucket => ./
+	github.com/ktrysmt/go-bitbucket/test_utils => ./test_utils
+	github.com/ktrysmt/go-bitbucket/tests => ./tests
+)
 
 require (
 	github.com/k0kubun/pp v3.0.1+incompatible

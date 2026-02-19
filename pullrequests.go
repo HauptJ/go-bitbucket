@@ -17,7 +17,7 @@ type PullRequests struct {
 	Title                 string
 	Author                User
 	Description           string
-	CloseSourceBranch     bool
+	CloseSourceBranch     bool `mapstructure:"close_source_branch"`
 	SourceBranch          RepositoryBranch
 	SourceRepository      Repository
 	SourceCommit          string
@@ -34,10 +34,10 @@ type PullRequests struct {
 }
 
 type PullRequestsList struct {
-	Page     int
-	Pagelen  int
-	MaxDepth int
-	Size     int
+	Page     uint
+	Pagelen  uint
+	MaxDepth uint
+	Size     uint
 	Next     string
 	Items    []PullRequests
 }
@@ -45,10 +45,10 @@ type PullRequestsList struct {
 type PullRequestsComments struct {
 	Owner         string
 	RepoSlug      string
-	PullRequestID int64
+	PullRequestID uint
 	Content       PullRequestCommentsContent
-	CommentId     int64 `mapstructure:"id"`
-	Parent        *int
+	Id            uint `mapstructure:"id"`
+	Parent        *uint
 }
 
 type PullRequestCommentsContent struct {
@@ -62,10 +62,10 @@ func (c PullRequestCommentsContent) ContentString() string {
 }
 
 type PullRequestsCommentsList struct {
-	Page     int
-	Pagelen  int
-	MaxDepth int
-	Size     int
+	Page     uint
+	Pagelen  uint
+	MaxDepth uint
+	Size     uint
 	Next     string
 	Items    []PullRequestsComments
 }
@@ -461,9 +461,9 @@ func decodePullRequestsList(prResponse interface{}) (*PullRequestsList, error) {
 	}
 
 	pullRequestList := PullRequestsList{
-		Page:    int(page),
-		Pagelen: int(pagelen),
-		Size:    int(size),
+		Page:    uint(page),
+		Pagelen: uint(pagelen),
+		Size:    uint(size),
 		Items:   prs,
 	}
 	return &pullRequestList, nil
@@ -485,9 +485,9 @@ func decodePullRequests(pullRequestResp interface{}) (*PullRequests, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = decoder.Decode(prMap)
-	if err != nil {
-		return nil, err
+	decodeErr := decoder.Decode(prMap)
+	if decodeErr != nil {
+		return nil, decodeErr // breaks with panic
 	}
 
 	return pullRequests, nil
@@ -523,9 +523,9 @@ func decodePullRequestsCommentsList(prCommentsResponse interface{}) (*PullReques
 	}
 
 	pullRequestsCommentsList := PullRequestsCommentsList{
-		Page:    int(page),
-		Pagelen: int(pagelen),
-		Size:    int(size),
+		Page:    uint(page),
+		Pagelen: uint(pagelen),
+		Size:    uint(size),
 		Items:   prCommentsList,
 	}
 	return &pullRequestsCommentsList, nil

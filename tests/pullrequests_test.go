@@ -113,7 +113,7 @@ func TestGetPullRequestComments_Add_Delete(t *testing.T) {
 	deleteCommentOpts := &go_bitbucket.PullRequestCommentOptions{
 		Owner:         ownerEnv,
 		RepoSlug:      repoEnv,
-		CommentId:     strconv.FormatInt(newPullRequestsComment.CommentId, 10),
+		CommentId:     strconv.Itoa(int(newPullRequestsComment.Id)),
 		PullRequestID: "1",
 	}
 
