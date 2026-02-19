@@ -179,7 +179,7 @@ func (m *Mockpullrequests) EXPECT() *MockpullrequestsMockRecorder {
 }
 
 // Activities mocks base method.
-func (m *Mockpullrequests) Activities(opt bitbucket.PullRequestsOptions) (any, error) {
+func (m *Mockpullrequests) Activities(opt bitbucket.PullRequestOptions) (any, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Activities", opt)
 	ret0, _ := ret[0].(any)
@@ -194,7 +194,7 @@ func (mr *MockpullrequestsMockRecorder) Activities(opt any) *gomock.Call {
 }
 
 // Activity mocks base method.
-func (m *Mockpullrequests) Activity(opt bitbucket.PullRequestsOptions) (any, error) {
+func (m *Mockpullrequests) Activity(opt bitbucket.PullRequestOptions) (any, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Activity", opt)
 	ret0, _ := ret[0].(any)
@@ -208,8 +208,38 @@ func (mr *MockpullrequestsMockRecorder) Activity(opt any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Activity", reflect.TypeOf((*Mockpullrequests)(nil).Activity), opt)
 }
 
+// AddComment mocks base method.
+func (m *Mockpullrequests) AddComment(opt bitbucket.PullRequestCommentOptions) (any, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddComment", opt)
+	ret0, _ := ret[0].(any)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddComment indicates an expected call of AddComment.
+func (mr *MockpullrequestsMockRecorder) AddComment(opt any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddComment", reflect.TypeOf((*Mockpullrequests)(nil).AddComment), opt)
+}
+
+// AddCommentObj mocks base method.
+func (m *Mockpullrequests) AddCommentObj(opt bitbucket.PullRequestCommentOptions) (*bitbucket.PullRequestsComments, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddCommentObj", opt)
+	ret0, _ := ret[0].(*bitbucket.PullRequestsComments)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddCommentObj indicates an expected call of AddCommentObj.
+func (mr *MockpullrequestsMockRecorder) AddCommentObj(opt any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddCommentObj", reflect.TypeOf((*Mockpullrequests)(nil).AddCommentObj), opt)
+}
+
 // Commits mocks base method.
-func (m *Mockpullrequests) Commits(opt bitbucket.PullRequestsOptions) (any, error) {
+func (m *Mockpullrequests) Commits(opt bitbucket.PullRequestOptions) (any, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Commits", opt)
 	ret0, _ := ret[0].(any)
@@ -224,7 +254,7 @@ func (mr *MockpullrequestsMockRecorder) Commits(opt any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m *Mockpullrequests) Create(opt bitbucket.PullRequestsOptions) (any, error) {
+func (m *Mockpullrequests) Create(opt bitbucket.PullRequestOptions) (any, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", opt)
 	ret0, _ := ret[0].(any)
@@ -239,7 +269,7 @@ func (mr *MockpullrequestsMockRecorder) Create(opt any) *gomock.Call {
 }
 
 // Decline mocks base method.
-func (m *Mockpullrequests) Decline(opt bitbucket.PullRequestsOptions) (any, error) {
+func (m *Mockpullrequests) Decline(opt bitbucket.PullRequestOptions) (any, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Decline", opt)
 	ret0, _ := ret[0].(any)
@@ -253,8 +283,23 @@ func (mr *MockpullrequestsMockRecorder) Decline(opt any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Decline", reflect.TypeOf((*Mockpullrequests)(nil).Decline), opt)
 }
 
+// DeleteComment mocks base method.
+func (m *Mockpullrequests) DeleteComment(opt bitbucket.PullRequestCommentOptions) (any, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteComment", opt)
+	ret0, _ := ret[0].(any)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteComment indicates an expected call of DeleteComment.
+func (mr *MockpullrequestsMockRecorder) DeleteComment(opt any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteComment", reflect.TypeOf((*Mockpullrequests)(nil).DeleteComment), opt)
+}
+
 // Diff mocks base method.
-func (m *Mockpullrequests) Diff(opt bitbucket.PullRequestsOptions) (any, error) {
+func (m *Mockpullrequests) Diff(opt bitbucket.PullRequestOptions) (any, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Diff", opt)
 	ret0, _ := ret[0].(any)
@@ -269,7 +314,7 @@ func (mr *MockpullrequestsMockRecorder) Diff(opt any) *gomock.Call {
 }
 
 // Get mocks base method.
-func (m *Mockpullrequests) Get(opt bitbucket.PullRequestsOptions) (any, error) {
+func (m *Mockpullrequests) Get(opt bitbucket.PullRequestOptions) (any, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", opt)
 	ret0, _ := ret[0].(any)
@@ -281,6 +326,51 @@ func (m *Mockpullrequests) Get(opt bitbucket.PullRequestsOptions) (any, error) {
 func (mr *MockpullrequestsMockRecorder) Get(opt any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*Mockpullrequests)(nil).Get), opt)
+}
+
+// GetComment mocks base method.
+func (m *Mockpullrequests) GetComment(opt bitbucket.PullRequestCommentOptions) (any, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetComment", opt)
+	ret0, _ := ret[0].(any)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetComment indicates an expected call of GetComment.
+func (mr *MockpullrequestsMockRecorder) GetComment(opt any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetComment", reflect.TypeOf((*Mockpullrequests)(nil).GetComment), opt)
+}
+
+// GetCommentObj mocks base method.
+func (m *Mockpullrequests) GetCommentObj(opt bitbucket.PullRequestCommentOptions) (*bitbucket.PullRequestsComments, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCommentObj", opt)
+	ret0, _ := ret[0].(*bitbucket.PullRequestsComments)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCommentObj indicates an expected call of GetCommentObj.
+func (mr *MockpullrequestsMockRecorder) GetCommentObj(opt any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCommentObj", reflect.TypeOf((*Mockpullrequests)(nil).GetCommentObj), opt)
+}
+
+// GetObj mocks base method.
+func (m *Mockpullrequests) GetObj(opt bitbucket.PullRequestOptions) (*bitbucket.PullRequests, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetObj", opt)
+	ret0, _ := ret[0].(*bitbucket.PullRequests)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetObj indicates an expected call of GetObj.
+func (mr *MockpullrequestsMockRecorder) GetObj(opt any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetObj", reflect.TypeOf((*Mockpullrequests)(nil).GetObj), opt)
 }
 
 // List mocks base method.
@@ -298,8 +388,53 @@ func (mr *MockpullrequestsMockRecorder) List(opt any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*Mockpullrequests)(nil).List), opt)
 }
 
+// ListComments mocks base method.
+func (m *Mockpullrequests) ListComments(opt bitbucket.PullRequestOptions) (any, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListComments", opt)
+	ret0, _ := ret[0].(any)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListComments indicates an expected call of ListComments.
+func (mr *MockpullrequestsMockRecorder) ListComments(opt any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListComments", reflect.TypeOf((*Mockpullrequests)(nil).ListComments), opt)
+}
+
+// ListCommentsObjs mocks base method.
+func (m *Mockpullrequests) ListCommentsObjs(opt bitbucket.PullRequestCommentOptions) (*bitbucket.PullRequestsCommentsList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListCommentsObjs", opt)
+	ret0, _ := ret[0].(*bitbucket.PullRequestsCommentsList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListCommentsObjs indicates an expected call of ListCommentsObjs.
+func (mr *MockpullrequestsMockRecorder) ListCommentsObjs(opt any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListCommentsObjs", reflect.TypeOf((*Mockpullrequests)(nil).ListCommentsObjs), opt)
+}
+
+// ListObjs mocks base method.
+func (m *Mockpullrequests) ListObjs(opt bitbucket.PullRequestsOptions) (*bitbucket.PullRequestsList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListObjs", opt)
+	ret0, _ := ret[0].(*bitbucket.PullRequestsList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListObjs indicates an expected call of ListObjs.
+func (mr *MockpullrequestsMockRecorder) ListObjs(opt any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListObjs", reflect.TypeOf((*Mockpullrequests)(nil).ListObjs), opt)
+}
+
 // Merge mocks base method.
-func (m *Mockpullrequests) Merge(opt bitbucket.PullRequestsOptions) (any, error) {
+func (m *Mockpullrequests) Merge(opt bitbucket.PullRequestOptions) (any, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Merge", opt)
 	ret0, _ := ret[0].(any)
@@ -314,7 +449,7 @@ func (mr *MockpullrequestsMockRecorder) Merge(opt any) *gomock.Call {
 }
 
 // Patch mocks base method.
-func (m *Mockpullrequests) Patch(opt bitbucket.PullRequestsOptions) (any, error) {
+func (m *Mockpullrequests) Patch(opt bitbucket.PullRequestOptions) (any, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Patch", opt)
 	ret0, _ := ret[0].(any)
@@ -329,7 +464,7 @@ func (mr *MockpullrequestsMockRecorder) Patch(opt any) *gomock.Call {
 }
 
 // Update mocks base method.
-func (m *Mockpullrequests) Update(opt bitbucket.PullRequestsOptions) (any, error) {
+func (m *Mockpullrequests) Update(opt bitbucket.PullRequestOptions) (any, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", opt)
 	ret0, _ := ret[0].(any)
@@ -341,6 +476,21 @@ func (m *Mockpullrequests) Update(opt bitbucket.PullRequestsOptions) (any, error
 func (mr *MockpullrequestsMockRecorder) Update(opt any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*Mockpullrequests)(nil).Update), opt)
+}
+
+// UpdateComment mocks base method.
+func (m *Mockpullrequests) UpdateComment(opt bitbucket.PullRequestCommentOptions) (any, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateComment", opt)
+	ret0, _ := ret[0].(any)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateComment indicates an expected call of UpdateComment.
+func (mr *MockpullrequestsMockRecorder) UpdateComment(opt any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateComment", reflect.TypeOf((*Mockpullrequests)(nil).UpdateComment), opt)
 }
 
 // Mockworkspace is a mock of workspace interface.

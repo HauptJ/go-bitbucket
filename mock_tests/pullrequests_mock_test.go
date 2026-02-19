@@ -22,15 +22,13 @@ func TestMockPullRequests_List_Success(t *testing.T) {
 		RepoSlug: "test-repo",
 	}
 
-	outPullRequest := go_bitbucket.PullRequestsOptions{
-		ID:       "test-pull-request-id",
-		Owner:    "test-workspace",
-		RepoSlug: "test-repo",
-		Title:    "test-pull-request",
-		Commit:   "test-commit",
+	outPullRequest := go_bitbucket.PullRequests{
+		ID:     1,
+		Title:  "test-pull-request",
+		Commit: "test-commit",
 	}
 
-	var expectedPullRequestList []go_bitbucket.PullRequestsOptions
+	var expectedPullRequestList []go_bitbucket.PullRequests
 	expectedPullRequestList = append(expectedPullRequestList, outPullRequest)
 
 	mockPullRequestInst.EXPECT().

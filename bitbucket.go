@@ -15,17 +15,27 @@ type user interface {
 }
 
 type pullrequests interface {
-	Create(opt PullRequestsOptions) (interface{}, error)
-	Update(opt PullRequestsOptions) (interface{}, error)
+	Create(opt PullRequestOptions) (interface{}, error)
+	Update(opt PullRequestOptions) (interface{}, error)
 	List(opt PullRequestsOptions) (interface{}, error)
-	Get(opt PullRequestsOptions) (interface{}, error)
-	Activities(opt PullRequestsOptions) (interface{}, error)
-	Activity(opt PullRequestsOptions) (interface{}, error)
-	Commits(opt PullRequestsOptions) (interface{}, error)
-	Patch(opt PullRequestsOptions) (interface{}, error)
-	Diff(opt PullRequestsOptions) (interface{}, error)
-	Merge(opt PullRequestsOptions) (interface{}, error)
-	Decline(opt PullRequestsOptions) (interface{}, error)
+	ListObjs(opt PullRequestsOptions) (*PullRequestsList, error)
+	Get(opt PullRequestOptions) (interface{}, error)
+	GetObj(opt PullRequestOptions) (*PullRequests, error)
+	Activities(opt PullRequestOptions) (interface{}, error)
+	Activity(opt PullRequestOptions) (interface{}, error)
+	Commits(opt PullRequestOptions) (interface{}, error)
+	Patch(opt PullRequestOptions) (interface{}, error)
+	Diff(opt PullRequestOptions) (interface{}, error)
+	Merge(opt PullRequestOptions) (interface{}, error)
+	Decline(opt PullRequestOptions) (interface{}, error)
+	ListComments(opt PullRequestOptions) (interface{}, error)
+	ListCommentsObjs(opt PullRequestCommentOptions) (*PullRequestsCommentsList, error)
+	GetCommentObj(opt PullRequestCommentOptions) (*PullRequestsComments, error)
+	GetComment(opt PullRequestCommentOptions) (interface{}, error)
+	AddCommentObj(opt PullRequestCommentOptions) (*PullRequestsComments, error)
+	AddComment(opt PullRequestCommentOptions) (interface{}, error)
+	UpdateComment(opt PullRequestCommentOptions) (interface{}, error)
+	DeleteComment(opt PullRequestCommentOptions) (interface{}, error)
 }
 type workspace interface {
 	GetProject(opt ProjectOptions) (*Project, error)
@@ -300,28 +310,41 @@ type RepositoryTagTarget struct {
 }
 
 type PullRequestsOptions struct {
-	ID                string   `json:"id"`
-	CommentID         string   `json:"comment_id"`
-	Owner             string   `json:"owner"`
-	RepoSlug          string   `json:"repo_slug"`
-	Title             string   `json:"title"`
-	Description       string   `json:"description"`
-	CloseSourceBranch bool     `json:"close_source_branch"`
-	SourceBranch      string   `json:"source_branch"`
-	SourceRepository  string   `json:"source_repository"`
-	DestinationBranch string   `json:"destination_branch"`
-	DestinationCommit string   `json:"destination_repository"`
-	Message           string   `json:"message"`
-	Reviewers         []string `json:"reviewers"`
-	States            []string `json:"states"`
-	Query             string   `json:"query"`
-	Sort              string   `json:"sort"`
-	Draft             bool     `json:"draft"`
-	Commit            string   `json:"commit"`
-	ctx               context.Context
+	Owner    string `json:"owner"`
+	RepoSlug string `json:"repo_slug"`
+	States   []string
+	Query    string `json:"query"`
+	Sort     string `json:"sort"`
+	PageNum  int    `json:"page"`
+	Pagelen  int    `json:"pagelen"`
+	MaxDepth int    `json:"max_depth"`
 }
 
-func (po *PullRequestsOptions) WithContext(ctx context.Context) *PullRequestsOptions {
+type PullRequestOptions struct {
+	ID                    string   `json:"id"`
+	CommentID             string   `json:"comment_id"`
+	Owner                 string   `json:"owner"`
+	RepoSlug              string   `json:"repo_slug"`
+	Title                 string   `json:"title"`
+	Description           string   `json:"description"`
+	CloseSourceBranch     bool     `json:"close_source_branch"`
+	SourceBranch          string   `json:"source_branch"`
+	SourceRepository      string   `json:"source_repository"`
+	SourceCommit          string   `json:"source_commit"`
+	DestinationBranch     string   `json:"destination_branch"`
+	DestinationRepository string   `json:"destination_repository"`
+	DestinationCommit     string   `json:"destination_commit"`
+	Message               string   `json:"message"`
+	Reviewers             []string `json:"reviewers"`
+	State                 string   `json:"state"`
+	Draft                 bool     `json:"draft"`
+	Commit                string   `json:"commit"`
+	Query                 string   `json:"query"`
+	Sort                  string   `json:"sort"`
+	ctx                   context.Context
+}
+
+func (po *PullRequestOptions) WithContext(ctx context.Context) *PullRequestOptions {
 	po.ctx = ctx
 	return po
 }
