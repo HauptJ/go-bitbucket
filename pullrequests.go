@@ -13,7 +13,7 @@ import (
 
 type PullRequests struct {
 	c                     *Client
-	ID                    int
+	ID                    uint
 	Title                 string
 	Author                User
 	Description           string
@@ -79,6 +79,14 @@ func (p *PullRequests) Create(po *PullRequestOptions) (interface{}, error) {
 	return p.c.executeWithContext("POST", urlStr, data, po.ctx)
 }
 
+func (p *PullRequests) CreateObj(po *PullRequestOptions) (*PullRequests, error) {
+	pullReqCreated, err := p.Create(po)
+	if err != nil {
+		return nil, err
+	}
+	return decodePullRequests(pullReqCreated)
+}
+
 func (p *PullRequests) Update(po *PullRequestOptions) (interface{}, error) {
 	data, err := p.buildPullRequestBody(po)
 	if err != nil {
@@ -138,22 +146,33 @@ func (p *PullRequests) List(po *PullRequestsOptions) (interface{}, error) {
 	return p.c.executePaginated("GET", urlStr, "", nil)
 }
 
-// Append comments to each pull request object in the list with pass by reference
-func (p *PullRequests) appendComments(po *PullRequestsOptions, prList **PullRequestsList) error {
+func (p *PullRequests) getPullRequestsIdsFromList(prList *PullRequestsList) []uint {
+	ids := make([]uint, len(prList.Items))
+	for i, pr := range prList.Items {
+		ids[i] = pr.ID
+	}
+	return ids
+}
 
-	for _, pr := range (*prList).Items {
-		prCommentOpts := &PullRequestCommentOptions{
+// appendCommentsFromList appends comments from a PullRequestsCommentsList to the corresponding
+// PullRequests by matching PullRequestID to ID, and returns the updated list of PullRequests.
+// Comments are matched based on PullRequestsComments.PullRequestID == PullRequests.ID
+func (p *PullRequests) appendCommentsFromList(po *PullRequestsOptions, prList *PullRequestsList) ([]PullRequests, error) {
+	prIds := p.getPullRequestsIdsFromList(prList)
+	for i, prId := range prIds {
+		commentsOpts := &PullRequestCommentOptions{
 			Owner:         po.Owner,
 			RepoSlug:      po.RepoSlug,
-			PullRequestID: strconv.Itoa(pr.ID),
+			PullRequestID: strconv.Itoa(int(prId)),
 		}
-		prCommentsList, err := p.ListCommentsObjs(prCommentOpts)
+		commentsList, err := p.ListCommentsObjs(commentsOpts)
 		if err != nil {
-			return err
+			return nil, err
 		}
-		pr.Comments = append(pr.Comments, prCommentsList.Items...)
+		prList.Items[i].Comments = commentsList.Items
 	}
-	return nil
+
+	return prList.Items, nil
 }
 
 func (p *PullRequests) ListObjs(po *PullRequestsOptions) (*PullRequestsList, error) {
@@ -166,7 +185,7 @@ func (p *PullRequests) ListObjs(po *PullRequestsOptions) (*PullRequestsList, err
 		return nil, err
 	}
 
-	err = p.appendComments(po, &pullRequestListObjs)
+	pullRequestListObjs.Items, err = p.appendCommentsFromList(po, pullRequestListObjs)
 	if err != nil {
 		return nil, err
 	}
@@ -186,6 +205,40 @@ func (p *PullRequests) Gets(po *PullRequestsOptions) (interface{}, error) {
 func (p *PullRequests) Get(po *PullRequestOptions) (interface{}, error) {
 	urlStr := p.c.GetApiBaseURL() + "/repositories/" + po.Owner + "/" + po.RepoSlug + "/pullrequests/" + po.ID
 	return p.c.execute("GET", urlStr, "")
+}
+
+func (p *PullRequests) appendCommentsFromGet(po *PullRequestOptions, prObj *PullRequests) ([]PullRequestsComments, error) {
+
+	commentsOpts := &PullRequestCommentOptions{
+		Owner:         po.Owner,
+		RepoSlug:      po.RepoSlug,
+		PullRequestID: po.ID,
+	}
+	commentsList, err := p.ListCommentsObjs(commentsOpts)
+	if err != nil {
+		return nil, err
+	}
+	prObj.Comments = commentsList.Items
+
+	return prObj.Comments, nil
+}
+
+func (p *PullRequests) GetObj(po *PullRequestOptions) (*PullRequests, error) {
+	pullReq, err := p.Get(po)
+	if err != nil {
+		return nil, err
+	}
+	prObj, err := decodePullRequests(pullReq)
+	if err != nil {
+		return nil, err
+	}
+
+	prObj.Comments, err = p.appendCommentsFromGet(po, prObj)
+	if err != nil {
+		return nil, err
+	}
+
+	return prObj, nil
 }
 
 func (p *PullRequests) Activities(po *PullRequestOptions) (interface{}, error) {
@@ -303,6 +356,15 @@ func (p *PullRequests) ListCommentsObjs(po *PullRequestCommentOptions) (*PullReq
 	return commentsListObjs, nil
 }
 
+func (p *PullRequests) ListCommentsObjsPtr(po *PullRequestCommentOptions) (**PullRequestsCommentsList, error) {
+	pullReqCommentsList, err := p.ListCommentsObjs(po)
+	if err != nil {
+		return nil, err
+	}
+
+	return &pullReqCommentsList, nil
+}
+
 /*
 Redirect to ListComments() which is the function name declared in bitbucket.go for consisitancy
 This is to prevent breakage for anyone using the missnamed GetComments() function call.
@@ -352,6 +414,7 @@ func (p *PullRequests) Statuses(po *PullRequestOptions) (interface{}, error) {
 
 func (p *PullRequests) buildPullRequestBody(po *PullRequestOptions) (string, error) {
 	body := map[string]interface{}{}
+	body["type"] = "pullrequest" // required parameter that is always "pullrequest" https://developer.atlassian.com/cloud/bitbucket/rest/api-group-pullrequests/
 	body["source"] = map[string]interface{}{}
 	body["destination"] = map[string]interface{}{}
 	body["reviewers"] = []map[string]string{}

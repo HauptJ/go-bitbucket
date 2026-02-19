@@ -1,6 +1,8 @@
 package bitbucket
 
 import (
+	"fmt"
+
 	"github.com/mitchellh/mapstructure"
 )
 
@@ -18,6 +20,10 @@ type User struct {
 	CreatedOn     string `mapstructure:"created_on"`
 	Has2faEnabled bool   `mapstructure:"has_2fa_enabled"`
 	Links         map[string]interface{}
+}
+
+func (u *User) String() string {
+	return fmt.Sprintf("User: %s, Account ID: %s", u.DisplayName, u.AccountId)
 }
 
 // Profile is getting the user data

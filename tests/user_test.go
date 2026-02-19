@@ -1,9 +1,10 @@
 package tests
 
 import (
-	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 
 	"github.com/ktrysmt/go-bitbucket"
 )
@@ -15,13 +16,21 @@ func TestProfile(t *testing.T) {
 
 	c, err := bitbucket.NewBasicAuth(user, pass)
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
 
 	res, err := c.User.Profile()
 
 	assert.NoError(t, err)
 	assert.NotNil(t, res)
+
+	resStr := res.String()
+	assert.Contains(t, resStr, "User: "+res.DisplayName)
+}
+
+func TestString(t *testing.T) {
+	u := &bitbucket.User{DisplayName: "John Doe", AccountId: "12345"}
+	assert.Equal(t, "User: John Doe, Account ID: 12345", u.String())
 }
 
 func getUsername() string {

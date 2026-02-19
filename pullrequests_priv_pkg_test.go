@@ -47,7 +47,7 @@ func TestDecodePullRequests_Success(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.NotNil(t, result)
-	assert.Equal(t, 123, result.ID)
+	assert.Equal(t, uint(123), result.ID)
 	assert.Equal(t, "Test PR", result.Title)
 	assert.Equal(t, "Test description", result.Description)
 	assert.Equal(t, "OPEN", result.State)
@@ -99,7 +99,7 @@ func TestDecodePullRequests_MinimalData(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.NotNil(t, result)
-	assert.Equal(t, 1, result.ID)
+	assert.Equal(t, uint(1), result.ID)
 	assert.Equal(t, "", result.Title)
 	assert.Equal(t, "", result.State)
 }
@@ -136,11 +136,11 @@ func TestDecodePullRequestsList_Success(t *testing.T) {
 	assert.Equal(t, uint(10), result.Pagelen)
 	assert.Equal(t, uint(2), result.Size)
 	assert.Len(t, result.Items, 2)
-	assert.Equal(t, 1, result.Items[0].ID)
+	assert.Equal(t, uint(1), result.Items[0].ID)
 	assert.Equal(t, "First PR", result.Items[0].Title)
 	assert.Equal(t, "OPEN", result.Items[0].State)
 	assert.False(t, result.Items[0].Draft)
-	assert.Equal(t, 2, result.Items[1].ID)
+	assert.Equal(t, uint(2), result.Items[1].ID)
 	assert.Equal(t, "Second PR", result.Items[1].Title)
 	assert.Equal(t, "MERGED", result.Items[1].State)
 	assert.True(t, result.Items[1].Draft)
@@ -223,7 +223,7 @@ func TestDecodePullRequestsList_WithErrorInItem(t *testing.T) {
 	assert.NotNil(t, result)
 	// Only the valid PR should be in the list
 	assert.Len(t, result.Items, 1)
-	assert.Equal(t, 1, result.Items[0].ID)
+	assert.Equal(t, uint(1), result.Items[0].ID)
 }
 
 func TestDecodePullRequestsComments_Success(t *testing.T) {
@@ -511,7 +511,7 @@ func TestDecodePullRequests_ComplexStructure(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.NotNil(t, result)
-	assert.Equal(t, 456, result.ID)
+	assert.Equal(t, uint(456), result.ID)
 	assert.Equal(t, "Complex PR", result.Title)
 	assert.Equal(t, "Detailed description", result.Description)
 	assert.Equal(t, "MERGED", result.State)

@@ -1,7 +1,6 @@
 package tests
 
 import (
-	"fmt"
 	"strconv"
 	"testing"
 
@@ -13,7 +12,7 @@ func TestListPullRequestsListObjs(t *testing.T) {
 
 	client, err := setupBasicAuthTest(t)
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
 	assert.NotNil(t, client, "Client should not be nil after setup")
 
@@ -29,7 +28,7 @@ func TestListPullRequestsListObjs(t *testing.T) {
 	assert.Len(t, actualPullRequests.Items, 1, "Expected one pull request")
 	assert.NotEmpty(t, actualPullRequests.Items[0].UpdatedOnTime, "Pull request updatedOnTime not be empty")
 	assert.Contains(t, actualPullRequests.Items[0].UpdatedOnTime.String(), "2026", "Pull request updatedOnTime should contain 2026")
-	//assert.Len(t, actualPullRequests.Items[0].Comments, 1, "Expected comments on pull request")
+	assert.Greater(t, len(actualPullRequests.Items[0].Comments), 1, "Expected comments on pull request")
 }
 
 func TestListPullRequestsList(t *testing.T) {
@@ -52,10 +51,10 @@ func TestListPullRequestsList(t *testing.T) {
 	assert.NotNil(t, actualPullRequests, "Pull requests should not be nil")
 
 	for key, value := range actualPullRequests.(map[string]interface{}) {
-		fmt.Println(key, value)
+		//fmt.Println(key, value)
 		if key == "values" {
-			for key, value := range value.([]interface{}) {
-				fmt.Println(key, value)
+			for _, value := range value.([]interface{}) {
+				//fmt.Println(key, value)
 				assert.Equal(t, float64(1), value.(map[string]interface{})["id"])
 				assert.Equal(t, "getauthtoken - test pull request", value.(map[string]interface{})["title"])
 				assert.Equal(t, "test pull request", value.(map[string]interface{})["description"])
@@ -67,6 +66,32 @@ func TestListPullRequestsList(t *testing.T) {
 			}
 		}
 	}
+}
+
+func TestGetObj(t *testing.T) {
+	client, err := setupBasicAuthTest(t)
+	if err != nil {
+		t.Error(err)
+	}
+	assert.NotNil(t, client, "Client should not be nil after setup")
+
+	inPullRequestOpts := &go_bitbucket.PullRequestOptions{
+		Owner:    ownerEnv,
+		RepoSlug: repoEnv,
+		ID:       "1",
+	}
+
+	actualPullRequestObj, err := client.Repositories.PullRequests.GetObj(inPullRequestOpts)
+	if err != nil {
+		t.Error(err)
+	}
+	assert.NotNil(t, actualPullRequestObj, "Pull request object should not be nil")
+
+	assert.Equal(t, "getauthtoken - test pull request", actualPullRequestObj.Title)
+	assert.Equal(t, "test pull request", actualPullRequestObj.Description)
+	assert.Equal(t, "Joshua Haupt", actualPullRequestObj.Author.DisplayName)
+	assert.Less(t, 1, len(actualPullRequestObj.Comments))
+
 }
 
 func TestGetPullRequestCommentsObjs(t *testing.T) {
@@ -107,7 +132,7 @@ func TestGetPullRequestComments_Add_Delete(t *testing.T) {
 
 	newPullRequestsComment, err := client.Repositories.PullRequests.AddCommentObj(*inPullRequestsCommentOpts)
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
 	}
 
 	deleteCommentOpts := &go_bitbucket.PullRequestCommentOptions{
